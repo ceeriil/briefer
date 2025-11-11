@@ -94,6 +94,7 @@ export default function Dashboard(props: Props) {
       return props.document.clock
     }
 
+
     return props.document.userAppClock[props.user.id] ?? props.document.appClock
   }, [
     props.isEditing,

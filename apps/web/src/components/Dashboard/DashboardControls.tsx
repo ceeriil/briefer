@@ -126,6 +126,21 @@ interface Props {
   onOpen: () => void
   onClose: () => void
 }
+
+function yjsToPlain(obj: any): any {
+  if (obj instanceof Y.Map || obj instanceof Y.XmlElement) {
+    const result: Record<string, any> = {}
+    obj.forEach((value: any, key: string) => {
+      result[key] = yjsToPlain(value)
+    })
+    return result
+  } else if (obj instanceof Y.Array) {
+    return obj.map((item: any) => yjsToPlain(item))
+  } else {
+    return obj
+  }
+}
+
 function DashboardControls(props: Props) {
   const { state: dataframes } = useYDocState(props.yDoc, getDataframes)
   const { state: blocks } = useYDocState(props.yDoc, getBlocks)
@@ -387,7 +402,14 @@ interface BlocksListProps {
   onExpand: (block: YBlock) => void
 }
 function BlocksList(props: BlocksListProps) {
+  const plainDocument = props.yDoc ? yjsToPlain(props.yDoc.get('root')) : {}
+
+  console.log('Plain Document:', plainDocument)
+  console.log('Blocks list:', props.list)
+
   return props.list.map((block, i) => {
+    console.log(`Block #${i}`, block)
+
     const { id } = getBaseAttributes(block)
     return (
       <BlockListItem

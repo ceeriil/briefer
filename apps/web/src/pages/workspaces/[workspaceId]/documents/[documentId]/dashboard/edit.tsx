@@ -60,6 +60,10 @@ export default function EditDashboardPage() {
     return null
   }
 
+  console.log('document', document, role, user)
+
+  console.log('clock', document.userAppClock)
+
   return (
     <>
       <Head>

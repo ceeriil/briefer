@@ -24,7 +24,6 @@ RUN apt-get update && apt-get install -y \
     libgdal-dev \
     curl \
     supervisor \
-    libaio1 \
     gcc \
     alien && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
