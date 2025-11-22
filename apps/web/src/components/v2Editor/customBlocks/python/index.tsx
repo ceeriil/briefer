@@ -213,18 +213,18 @@ function PythonBlock(props: Props) {
   const isCodeHidden =
     (!props.dashboardMode || !dashboardModeHasControls(props.dashboardMode)) &&
     (props.isEditable
-      ? props.block.getAttribute('isCodeHidden') ?? false
+      ? (props.block.getAttribute('isCodeHidden') ?? false)
       : localCodeHidden === null
-      ? props.block.getAttribute('isCodeHidden') ?? false
-      : localCodeHidden)
+        ? (props.block.getAttribute('isCodeHidden') ?? false)
+        : localCodeHidden)
 
   const isResultHidden =
     (!props.dashboardMode || !dashboardModeHasControls(props.dashboardMode)) &&
     (props.isEditable
-      ? props.block.getAttribute('isResultHidden') ?? false
+      ? (props.block.getAttribute('isResultHidden') ?? false)
       : localResultHidden === null
-      ? props.block.getAttribute('isResultHidden') ?? false
-      : localResultHidden)
+        ? (props.block.getAttribute('isResultHidden') ?? false)
+        : localResultHidden)
 
   const queryStatusText: JSX.Element | null = useMemo(() => {
     switch (status) {

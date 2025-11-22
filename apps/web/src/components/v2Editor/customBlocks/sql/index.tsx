@@ -105,11 +105,15 @@ interface Props {
 }
 function SQLBlock(props: Props) {
   const properties = useProperties()
+
+  console.log('SQLBlock props:', props)
+  console.log('SQLBlock document:', props.document)
+
   const [workspaces] = useWorkspaces()
-  const currentWorkspace: ApiWorkspace | undefined = useMemo(
-    () => workspaces.data.find((w) => w.id === props.document.workspaceId),
-    [workspaces.data, props.document.workspaceId]
-  )
+  const currentWorkspace: ApiWorkspace | undefined = useMemo(() => {
+    if (!props.document) return undefined // guard against undefined
+    return workspaces.data.find((w) => w.id === props.document.workspaceId)
+  }, [workspaces.data, props.document?.workspaceId])
 
   const hasOaiKey = useMemo(() => {
     return (
@@ -156,6 +160,8 @@ function SQLBlock(props: Props) {
   const onSQLSelectionChanged = useCallback((selectedCode: string | null) => {
     setSelectedCode(selectedCode)
   }, [])
+
+  console.log(props.block, props.block, 'SQLBlock render')
 
   const {
     dataframeName,

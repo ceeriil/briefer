@@ -462,27 +462,27 @@ function Tab(props: TabProps) {
           show={contextMenu !== null}
           ref={contextMenuRef}
         >
-          <div className="rounded-md bg-white shadow-[0_4px_12px_#CFCFCF] ring-1 ring-gray-100 focus:outline-none font-sans divide-y divide-gray-200 flex flex-col text-xs text-gray-600">
+          <div className="rounded-md bg-white  ring-1 ring-gray-100 dark:ring-[#262A30] focus:outline-none  divide-y divide-gray-200 flex flex-col text-xs text-gray-600 dark:divide-[#262A30] font-primary">
             <div className="flex flex-col divide-y divide-gray-200">
               <div className="py-0.5 px-0.5">
                 <button
-                  className="hover:bg-gray-100 w-full px-2 py-1.5 rounded-md text-left flex gap-x-2 items-center whitespace-nowrap"
+                  className="hover:bg-gray-100 dark:hover:bg-[#181C21] w-full px-2 py-1.5 rounded-md text-left flex gap-x-2 items-center whitespace-nowrap"
                   onClick={onRun}
                 >
                   <PlayIcon className="h-4 w-4" />
                   <span>Run tab</span>
                 </button>
                 <button
-                  className="hover:bg-gray-100 w-full px-2 py-1.5 rounded-md text-left flex gap-x-2 items-center whitespace-nowrap"
+                  className="hover:bg-gray-100 dark:hover:bg-[#181C21] w-full px-2 py-1.5 rounded-md text-left flex gap-x-2 items-center whitespace-nowrap"
                   onClick={onRunOnwards}
                 >
                   <BarsArrowDownIcon className="h-4 w-4" />
-                  <span>Run onwards</span>
+                  <span>Run onward</span>
                 </button>
               </div>
               <div className="py-0.5 px-0.5">
                 <button
-                  className="hover:bg-gray-100 w-full px-2 py-1.5 rounded-md text-left flex gap-x-2 items-center whitespace-nowrap"
+                  className="hover:bg-gray-100 dark:hover:bg-[#181C21] w-full px-2 py-1.5 rounded-md text-left flex gap-x-2 items-center whitespace-nowrap"
                   onClick={onDuplicateTab}
                 >
                   <FolderIcon className="h-4 w-4" />
@@ -491,7 +491,7 @@ function Tab(props: TabProps) {
               </div>
               <div className="py-0.5 px-0.5">
                 <button
-                  className="hover:bg-gray-100 w-full px-2 py-1.5 rounded-md text-left flex gap-x-2 items-center whitespace-nowrap"
+                  className="hover:bg-gray-100 dark:hover:bg-[#181C21] w-full px-2 py-1.5 rounded-md text-left flex gap-x-2 items-center whitespace-nowrap"
                   onClick={onDeleteTab}
                 >
                   <MinusCircleIcon className="h-4 w-4" />
@@ -618,13 +618,13 @@ const DraggableTabbedBlock = (props: {
         type === 'application/json'
           ? 'json'
           : type === 'text/csv'
-          ? 'csv'
-          : type === 'application/vnd.ms-excel'
-          ? 'xls'
-          : type ===
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-          ? 'xlsx'
-          : ''
+            ? 'csv'
+            : type === 'application/vnd.ms-excel'
+              ? 'xls'
+              : type ===
+                  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                ? 'xlsx'
+                : ''
 
       const source =
         fileExtension !== ''
@@ -1081,8 +1081,8 @@ file`
               isOver && canDrop
                 ? 'bg-ceramic-100'
                 : isDragging
-                ? 'opacity-50'
-                : ''
+                  ? 'opacity-50'
+                  : ''
             )}
           />
           {props.isPDF ? (
@@ -1229,6 +1229,8 @@ interface Props {
   aiTasks: AITasks
 }
 const Editor = (props: Props) => {
+  console.log('editor', props)
+
   const { state: layout } = useYDocState<Y.Array<YBlockGroup>>(
     props.yDoc,
     layoutGetter
@@ -1291,8 +1293,8 @@ const Editor = (props: Props) => {
                   newSQLDatasourceId === null
                     ? NO_DS_TEXT
                     : newSQLDatasourceIsDemo
-                    ? DEMO_DS_TEXT
-                    : undefined,
+                      ? DEMO_DS_TEXT
+                      : undefined,
               },
               index
             )
@@ -1598,8 +1600,8 @@ const Editor = (props: Props) => {
   const domBlocks = useMemo(() => {
     return layout.value.toArray().map((blockGroup, i) => {
       const blockId = blockGroup.getAttribute('id')
-      const tabs = getTabsFromBlockGroup(blockGroup, blocks.value).filter((t) =>
-        props.isApp ? !t.isHiddenInPublished : true
+      const tabs = getTabsFromBlockGroup(blockGroup, blocks.value).filter(
+        (t) => (props.isApp ? !t.isHiddenInPublished : true)
       )
       if (!blockId || tabs.length === 0) {
         if (i === 0) {

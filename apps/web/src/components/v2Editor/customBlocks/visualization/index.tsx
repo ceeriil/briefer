@@ -180,6 +180,7 @@ interface Props {
   userId: string | null
   isFullScreen: boolean
 }
+
 function VisualizationBlock(props: Props) {
   const dataframe = getDataframe(props.block, props.dataframes)
 
@@ -683,9 +684,13 @@ function VisualizationBlock(props: Props) {
                 <input
                   type="text"
                   className={clsx(
-                    'text-sm font-sans font-medium pl-1 ring-gray-200 focus:ring-gray-400 block w-full rounded-md border-0 text-gray-800 hover:ring-1 focus:ring-1 ring-inset focus:ring-inset placeholder:text-gray-400 focus:ring-inset py-0 disabled:ring-0 h-2/3 bg-transparent focus:bg-white'
+                    'text-sm font-sans font-medium pl-1 ring-gray-200 focus:ring-gray-400 block w-full rounded-md border-0 text-gray-800 hover:ring-1 focus:ring-1 ring-inset  placeholder:text-gray-400 focus:ring-inset py-0 disabled:ring-0 h-2/3 bg-transparent focus:bg-white'
                   )}
-                  placeholder={props.isEditable ? "Visualization (click to add a title)" : "Visualization"}
+                  placeholder={
+                    props.isEditable
+                      ? 'Visualization (click to add a title)'
+                      : 'Visualization'
+                  }
                   value={title}
                   onChange={onChangeTitle}
                   disabled={!props.isEditable}

@@ -118,6 +118,67 @@ interface Props {
   isFullScreen: boolean
 }
 function VisualizationBlockV2(props: Props) {
+  function serializeVisBlockProps(p: any) {
+    return {
+      ...p,
+      block: serializeYBlock(p.block),
+      blocks: serializeYMap(p.blocks),
+      dataframes: serializeYMap(p.dataframes),
+    }
+  }
+
+  function serializeYMap(yMap: any) {
+    const out: Record<string, any> = {}
+    for (const [key, value] of yMap.entries()) {
+      out[key] = serializeYValue(value)
+    }
+    return out
+  }
+
+  function serializeYBlock(block: any) {
+    const attrs: Record<string, any> = {}
+    const blockAttrs = block.getAttributes() // returns plain object
+    for (const [key, val] of Object.entries(blockAttrs)) {
+      attrs[key] = serializeYValue(val)
+    }
+    return {
+      nodeName: block.nodeName,
+      attributes: attrs,
+    }
+  }
+
+  function serializeYValue(value: any) {
+    if (value?.toJSON) return value.toJSON() // dataframe, arrays, etc.
+    if (value instanceof Map) return Object.fromEntries(value)
+    if (Array.isArray(value)) return value.map(serializeYValue)
+    if (value && typeof value === 'object')
+      return JSON.parse(JSON.stringify(value))
+    return value
+  }
+
+  console.log(
+    'MOCK_VIS_BLOCK_PROPS:',
+    serializeVisBlockProps({
+      isPublicMode: props.isPublicMode,
+      isEditable: props.isEditable,
+      document: props.document,
+      onAddGroupedBlock: 'MOCK_FN',
+      block: props.block,
+      blocks: props.blocks,
+      dataframes: props.dataframes,
+      dragPreview: props.hasMultipleTabs ? null : 'MOCK_DRAG',
+      dashboardMode: null,
+      hasMultipleTabs: props.hasMultipleTabs,
+      isBlockHiddenInPublished: props.isBlockHiddenInPublished,
+      onToggleIsBlockHiddenInPublished: 'MOCK_FN',
+
+      userId: props.userId,
+      executionQueue: 'MOCK_QUEUE',
+      isFullScreen: props.isFullScreen,
+    })
+  )
+
+  console.log(props, 'prop', props.block)
   const attrs = useYMemo(
     [props.block],
     () => getVisualizationV2Attributes(props.block),
@@ -217,7 +278,7 @@ function VisualizationBlockV2(props: Props) {
       const df = props.dataframes.get(dataframeName)
       if (df) {
         const xAxis = attrs.input.xAxis
-          ? df.columns.find((c) => c.name === attrs.input.xAxis?.name) ?? null
+          ? (df.columns.find((c) => c.name === attrs.input.xAxis?.name) ?? null)
           : null
 
         let xAxisGroupFunction = attrs.input.xAxisGroupFunction

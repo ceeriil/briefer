@@ -27,7 +27,7 @@ export default function HeaderSelect(props: Props) {
   const selectedOptionContent = hasOptions
     ? options.find((option) => option.value === value)?.label ||
       (props.placeholders?.[0] ?? 'No data frames selected')
-    : props.placeholders?.[1] ?? 'No data frames'
+    : (props.placeholders?.[1] ?? 'No data frames')
 
   const onChange = useCallback(
     (value: string) => {
@@ -41,7 +41,7 @@ export default function HeaderSelect(props: Props) {
   return (
     <Listbox value={value} onChange={onChange} disabled={disabled}>
       {({ open }) => (
-        <div className="h-full w-56 max-w-56 relative overflow-visible font-normal">
+        <div className="h-full w-56 max-w-56 relative overflow-visible font-normal ">
           <Listbox.Button
             as="div"
             className={clsx(

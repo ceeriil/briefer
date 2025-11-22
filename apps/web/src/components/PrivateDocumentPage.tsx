@@ -48,10 +48,13 @@ interface Props {
   isApp: boolean
 }
 export default function PrivateDocumentPage(props: Props) {
+  console.log(props.documentId)
   const [{ document, publishing }, { publish }] = useDocument(
     props.workspaceId,
     props.documentId
   )
+
+  console.log('check the structure of document:', document)
 
   if (!document) {
     return (
@@ -175,7 +178,13 @@ function PrivateDocumentPageInner(
     [props.workspaceId, props.documentId, shareLinkWithoutSidebar]
   )
 
+  console.log('workspaceId:', props.workspaceId)
+  console.log('user roles:', props.user?.roles)
+
   const isViewer = props.user.roles[props.workspaceId] === 'viewer'
+
+  console.log('isViewer:', isViewer)
+
   const isDeleted = !isNil(props.document.deletedAt)
 
   const [isFullScreen, { toggle: onToggleFullScreen }] = useFullScreenDocument(
@@ -240,6 +249,14 @@ function PrivateDocumentPageInner(
       `/workspaces/${props.document.workspaceId}/documents/${props.document.id}/notebook`
     )
   }, [router])
+
+  console.log(
+    'is app',
+    props.isApp,
+    'role:',
+    props.user.roles[props.workspaceId],
+    props.isApp || props.user.roles[props.workspaceId] === 'viewer'
+  )
 
   const topBarContent = (
     <div className="flex items-center w-full justify-between gap-x-6">
